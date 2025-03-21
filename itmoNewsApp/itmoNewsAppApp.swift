@@ -12,10 +12,16 @@ import SwiftData
 struct itmoNewsAppApp: App {
     private let modelContainer = try! ModelContainer(for: NewsItem.self)
     let newsService = NewsService()
+    
+    @State var isAuth: Bool = true
 
     var body: some Scene {
         WindowGroup {
-            MainView(viewModel: .init(newsService, modelContainer: modelContainer))
+            if isAuth {
+                AuthView(viewModel: AuthViewModel(), isAuth: $isAuth)
+            } else {
+                MainView(viewModel: .init(newsService, modelContainer: modelContainer))
+            }
         }
 //        .modelContainer(sharedModelContainer)
     }
