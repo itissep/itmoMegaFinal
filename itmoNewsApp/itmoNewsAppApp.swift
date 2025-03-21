@@ -10,22 +10,12 @@ import SwiftData
 
 @main
 struct itmoNewsAppApp: App {
-    var sharedModelContainer: ModelContainer = {
-        let schema = Schema([
-            Item.self,
-        ])
-        let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
-
-        do {
-            return try ModelContainer(for: schema, configurations: [modelConfiguration])
-        } catch {
-            fatalError("Could not create ModelContainer: \(error)")
-        }
-    }()
+    private let modelContainer = try! ModelContainer(for: NewsItem.self)
+    let newsService = NewsService()
 
     var body: some Scene {
         WindowGroup {
-            MainView(viewModel: .init(NewsService()))
+            MainView(viewModel: .init(newsService, modelContainer: modelContainer))
         }
 //        .modelContainer(sharedModelContainer)
     }

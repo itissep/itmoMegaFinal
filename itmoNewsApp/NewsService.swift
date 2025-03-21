@@ -61,3 +61,30 @@ struct NewsArticle: Codable {
 //    "urlToImage": "https://www.washingtonpost.com/wp-apps/imrs.php?src=https://arc-anglerfish-washpost-prod-washpost.s3.amazonaws.com/public/HYB567K5S6Z5B3STSTHNKNXQMQ_size-normalized.jpg&w=1440",
     
 }
+
+import SwiftData
+
+@Model
+final class NewsItem {
+    var title: String?
+    var desc: String?
+    var url: String?
+    var urlToImage: String?
+    
+    init(from model: NewsArticle) {
+        self.title = model.title
+        self.desc = model.description
+        self.url = model.url
+        self.urlToImage = model.urlToImage
+    }
+    
+    func toModel() -> NewsArticle {
+        .init(
+            title: self.title,
+            description: self.desc,
+            url: self.url,
+            urlToImage: self.urlToImage
+        )
+    }
+}
+

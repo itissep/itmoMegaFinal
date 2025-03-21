@@ -6,6 +6,8 @@ struct MainView: View {
     
     @State var showModal: Bool = false
     
+    
+    
     var body: some View {
         ScrollView {
             switch viewModel.state {
@@ -100,7 +102,7 @@ struct MainView: View {
             DetailsView(viewModel: DetailsViewModel(viewModel.selectedArticle!))
         }
         .onAppear {
-            viewModel.handle(.onReload)
+            viewModel.handle(.onAppear)
         }
     }
 }
