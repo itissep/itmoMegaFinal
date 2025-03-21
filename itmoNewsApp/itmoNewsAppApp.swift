@@ -25,8 +25,8 @@ struct itmoNewsAppApp: App {
 
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            MainView(viewModel: .init(NewsService()))
         }
-        .modelContainer(sharedModelContainer)
+//        .modelContainer(sharedModelContainer)
     }
 }
