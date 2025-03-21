@@ -4,6 +4,8 @@ struct MainView: View {
     
     @ObservedObject var viewModel: MainViewModel
     
+    @State var showModal: Bool = false
+    
     var body: some View {
         ScrollView {
             switch viewModel.state {
@@ -93,6 +95,9 @@ struct MainView: View {
                 .foregroundStyle(Color.accentColor)
                 Spacer()
             }
+        }
+        .sheet(isPresented: $viewModel.showModal) {
+            DetailsView(viewModel: DetailsViewModel(viewModel.selectedArticle!))
         }
         .onAppear {
             viewModel.handle(.onReload)

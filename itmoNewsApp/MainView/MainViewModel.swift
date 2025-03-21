@@ -14,6 +14,8 @@ class MainViewModel: ObservableObject {
     }
     
     @Published var state: State = .loading
+    @Published var showModal: Bool = false
+    @Published var selectedArticle: NewsArticle?
     
     private var newsService: NewsService
     
@@ -36,7 +38,8 @@ class MainViewModel: ObservableObject {
         case .onSearch(let searchKey):
             print("searched")
         case .onTapOn(let article):
-            print("tapped")
+            selectedArticle = article
+            showModal = true
         }
     }
 }

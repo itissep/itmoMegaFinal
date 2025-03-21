@@ -1,8 +1,10 @@
-//
-//  DetailsViewModel.swift
-//  itmoNewsApp
-//
-//  Created by Уля on 21.03.2025.
-//
+import SwiftUI
 
-import Foundation
+class DetailsViewModel: ObservableObject {
+    
+    @Published var model: NewsArticle
+    
+    init(_ model: NewsArticle) {
+        self.model = model
+    }
+}
