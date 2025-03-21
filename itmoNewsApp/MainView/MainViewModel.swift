@@ -19,6 +19,8 @@ class MainViewModel: ObservableObject {
     @Published var showModal: Bool = false
     @Published var selectedArticle: NewsArticle?
     
+    @Published var text: String = ""
+    
     private var newsService: NewsService
     private var modelContainer: ModelContainer
     
@@ -77,7 +79,29 @@ class MainViewModel: ObservableObject {
                 }
             }
         case .onSearch(let searchKey):
-            print("searched")
+            if searchKey == "" {
+                newsService.fetchData { [weak self] articles, error in
+                    DispatchQueue.main.async {
+                        if let error {
+                            self?.state = .error(errorString: error.localizedDescription)
+                        } else {
+                            self?.state = .loaded(articles: articles)
+                            self?.replaceCache(with: articles)
+                        }
+                    }
+                }
+            } else {
+                newsService.search(searchKey) { [weak self] articles, error in
+                    DispatchQueue.main.async {
+                        if let error {
+                            self?.state = .error(errorString: error.localizedDescription)
+                        } else {
+                            self?.state = .loaded(articles: articles)
+                            self?.replaceCache(with: articles)
+                        }
+                    }
+                }
+            }
         case .onTapOn(let article):
             selectedArticle = article
             showModal = true

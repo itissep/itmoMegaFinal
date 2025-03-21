@@ -10,6 +10,17 @@ struct MainView: View {
     
     var body: some View {
         ScrollView {
+            HStack {
+                TextField("Search", text: $viewModel.text)
+                    .monospaced()
+                Button {
+                    viewModel.handle(.onSearch(searchKey: viewModel.text))
+                } label: {
+                    Text("go")
+                }
+            }
+            .padding()
+
             switch viewModel.state {
             case .loading:
                 Spacer()

@@ -1,10 +1,3 @@
-//
-//  NewsService.swift
-//  itmoNewsApp
-//
-//  Created by Уля on 21.03.2025.
-//
-
 import Foundation
 
 struct NewsService {
@@ -39,7 +32,21 @@ struct NewsService {
         }.resume()
     }
     
-    func search(_ searchKey: String) {
+    func search(_ searchKey: String, _ completion: @escaping ([NewsArticle], Error?) -> Void) {
+//        https:newsapi.org/v2/everything?q=Apple&from=2025-03-21&sortBy=popularity&apiKey=API_KEY
+        let url = URL(string: "https://newsapi.org/v2/top-headlines?q=\(searchKey)&country=us&apiKey=\(Env.apiKey)")!
+        URLSession.shared.dataTask(with: url) { data, _, error in
+            if error != nil {
+                completion([], NewsServiceError.urlTaskProblem)
+            } else if let data {
+                do {
+                    let decodedData = try JSONDecoder().decode(NewsResponse.self, from: data)
+                    completion(decodedData.articles, nil)
+                } catch {
+                    completion([], NewsServiceError.decodingProblem)
+                }
+            }
+        }.resume()
         
     }
 }
